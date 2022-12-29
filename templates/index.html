@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}
+  Home
+{% endblock title %}   
+{% block body %}
+<div class="container">
+  <form action="/" method="POST">
+    <div class="mb-3">
+      <label for="work" class="form-label">Your Work</label>
+      <input
+        type="text"
+        class="form-control"
+        id="work"
+        name="title"
+        aria-describedby="work"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        name="desc"
+      />
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+      <label class="form-check-label" for="exampleCheck1"
+        >Request a callback</label
+      >
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+<div class="container">
+  <br />
+  <br />
+
+  
+  {% if allWorks|length==0 %}
+  <div class="alert alert-info" role="alert">
+    No work requested. Feel free for assistance
+  </div>
+  {% else %}
+  <h3>Your Requested Works</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">SNo</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Time Created</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for work in allWorks %}
+      <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td>{{work.title}}</td>
+        <td>{{work.desc}}</td>
+        <td>{{work.date_created}}</td>
+        <td>
+          <a href="/update/{{work.sno}}" class="text-decoration-none">
+            <button type="button" class="btn btn-primary btn-sm">
+              Edit
+            </button>
+          </a>
+          <a href="/delete/{{work.sno}}" class="text-decoration-none">
+            <button type="button" class="btn btn-danger btn-sm ">
+              Delete
+            </button>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+{% endblock body %} 
+    
+
