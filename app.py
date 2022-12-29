@@ -6,8 +6,11 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']="sqlite:///website.db"
 db = SQLAlchemy(app)
 
+#db is an object that gives access to the db.Model class tot define models, and the db.session to execute queries. 
 
+#defining models: subclass db.Model to define a model class.
 class Work(db.Model):
+    #Columns in the table
     sno = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(200), nullable=False)
     desc = db.Column(db.String(600), nullable=False)
@@ -15,6 +18,31 @@ class Work(db.Model):
     
     def __repr__(self)->str:
         return f"{self.sno} - {self.title}"
+
+#creating the table:
+# in python console,
+# with app.app_context():
+#   db.create_all()
+
+
+
+#routes
+
+#note: witnin a Flask view or CLI command, we can use db.session to execute queries and modify model data.
+
+#SQLAlchemy automatically defines an __init__ method for each model that assigns any keyword arguments to corresponding database columns and other attributes.
+
+#workflow: session->(to stage to commit)->commit
+
+#CRUD in Flask-SQLAlchemy:
+# - db.session.add(obj) adds an object to the session, to be inserted
+# - Modifying an object's attributes updates the object. 
+# - db.session.delete(obj) deletes an object.
+
+# remember to call db.session.commit() after modifying, adding, or deleting any data.
+
+#db.session.execute(db.select(..)) constructs a query to select data from the database. 
+
 
 @app.route('/', methods=['GET', 'POST'])
 def hello():
